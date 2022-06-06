@@ -68,7 +68,7 @@ export default function Dashboard() {
         <Card className="registrybody">
           <Card.Body>
           <h1 className="registrytitle">Welcome to <br/>
-           3MS Face Recognition System</h1><br/>
+           3MS Student Registry</h1><br/>
           <div className="studentregistry">
             <h2>Student Registry</h2>
             <Form onSubmit={handleSubmit}>
