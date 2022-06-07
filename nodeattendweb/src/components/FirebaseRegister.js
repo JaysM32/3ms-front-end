@@ -49,13 +49,16 @@ export default function Signup() {
       setError("")
       setLoading(true)
       await signup(email, pwd)
-      history.push("/")
-    } catch {
+      history.push("/login")
+    } catch(err413) {
+      console.log(err413)
       setError("Failed to create an account")
     }
 
     setLoading(false)
   }
+
+
 
   return (
     <>

@@ -27,24 +27,29 @@ export default function Dashboard() {
   }
 
   //databse functions
-  const [users, setStudents] = useState([]);
-  const [inputs, setInputs] = useState([]);
+  const [students, setStudents] = useState([]);
 
   useEffect(() => {
     getStudents();
   }, []);
 
-  function getStudents(){
-    axios.get('https://webdev-deployed.herokuapp.com/user').then(function(response){
-      console.log(response.data);
+  const getStudents = () => {
+    axios.get('http://localhost:3001/class').then((response) => {
+      setStudents(response.data);
     });
-  }
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    history.push(`/studDatabase/${inputs}`);
+  const deleteStudent = (id) => {
+    axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+      console.log("data deleted")
+      window.location.reload()
+    });
+  };
+  const [studID, setStudID] = useState([]);
+  const handleEdit = (e) =>{
+    e.preventDefault();
+    history.push(`/studEdit/${studID}`);
   }
-
   return (
 
     <div className="page">
@@ -70,13 +75,44 @@ export default function Dashboard() {
 
       <div className="content">
       <Container className="insertregistry">
-        <Card className="registrybody">
+        <Card className="databasebody">
           <Card.Body>
-          <h1 className="registrytitle">Input Student Class</h1><br/>
-          <Form onSubmit={handleSubmit}>
-              <input type="text" id="classSelect" name="classSelect" onChange={(e)=>setInputs(e.target.value)}></input><br/><br/>
-              <Button className="w-100" type="submit"> Submit </Button>
-            </Form>
+          <h1 className="registrytitle">Students</h1><br/>
+          <table className="studentdatabase">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>DOB</th>
+                        <th>Notes</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {students.map((user, key) =>
+                        <tr key={key}>
+                            <td>{user.studentID}</td>
+                            <td>{user.studentName}</td>
+                            <td>{user.studentClass}</td>
+                            <td>{user.studentDOB}</td>
+                            <td>{user.studentNotes}</td>
+                            <td>
+                              <button onClick={() => deleteStudent(user.studentID)}>Delete</button>
+                            </td>
+                        </tr>
+                    )}
+                    
+                </tbody>
+            </table>
+            <br/><br/>
+            <div className="registrytitle">
+              <h1>Input Student ID to Edit</h1><br/>
+              <Form onSubmit={handleEdit}>
+                <input type="text" id="classSelect" name="classSelect" onChange={(e)=>setStudID(e.target.value)}></input><br/><br/>
+                <Button className="w-100" type="submit"> Edit </Button>
+              </Form>
+            </div>
           </Card.Body>
         </Card>
       </Container>

@@ -27,30 +27,32 @@ export default function Dashboard() {
 
   //database functions
   const {id} = useParams();
-  const [inputs, setInputs] = useState([]);
-  useEffect(() => {
-    getStudents();
-  }, []);
-  
-  function getStudents(){
-    axios.get(`https://webdev-deployed.herokuapp.com/user/${id}`).then(function(response){
-      console.log(response.data);
-      setInputs(response.data);
-    });
-  }
-  const handleChange = (event) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({...values, [name]: value}));
-}
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const [students, setStudents] = useState([]);
+  const [newName, setName] = useState('');
+  const [newClassid, setClassID] = useState('');
+  const [newDob, setDOB] = useState('');
+  const [newNotes, setNotes] = useState('');
 
-    axios.put(`https://webdev-deployed.herokuapp.com/${id}/edit`, inputs).then(function(response){
+
+  const getSpecStudents = (id) => {
+    axios.get(`http://localhost:3001/user/${id}`).then((response) => {
+      setStudents(response.data);
+    });
+  };
+
+  const updateStudent = (id) => {
+    axios.put("http://localhost:3001/update", { 
+      name: newName,
+      classid: newClassid,
+      dob: newDob,
+      notes: newNotes,
+      id: id 
+    }).then( (response) => {
         console.log(response.data);
-        history.push('/StudClass');
-    }); 
-  }
+      }
+    );
+  };
+
   
   return (
 
@@ -75,17 +77,21 @@ export default function Dashboard() {
       </Navbar>
 
 
-      <div className="content">
-      <Container className="databasestyling">
-        <Card className="databasebody">
+      <div className="loginbox">
+      <Container>
+        <Card>
           <Card.Body>
           <h1>Edit user</h1>
-          <Form onSubmit={handleSubmit}>
-              <Form.Label for='studentName'>Edit Student Name</Form.Label><br/>
-              <input value={inputs.studentName} type="text" id="studentName" name="studentName" onChange={handleChange}></input><br/><br/>
-              <Form.Label for='studentName'>Edit Student Class ID</Form.Label><br/>
-              <input value={inputs.studentClass}type="text" id="studentClass" name="studentClass" onChange={handleChange}></input><br/><br/>
-              <Button className="w-100" type="submit"> Submit </Button>
+          <Form>
+              <Form.Label for='studentName'>Write Student Name</Form.Label><br/>
+              <input type="text" id="studentName" value={students.studentName} name="studentName" onChange={(event)=>{setName(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentclass'>Write Student Class ID</Form.Label><br/>
+              <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setClassID(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentDOB'>Write Student Date of Birth</Form.Label><br/>
+              <input type="text" id="studentName" name="studentDOB" onChange={(event)=>{setDOB(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentNotes'>Write any notes Regarding the student</Form.Label><br/>
+              <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setNotes(event.target.value)}}></input><br/><br/>
+              <Button className="w-100" type="submit" onClick={()=> {updateStudent(id)}}> Submit </Button>
             </Form>
           </Card.Body>
         </Card>

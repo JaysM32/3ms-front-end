@@ -9,9 +9,9 @@ import ForgotPassword from "./ForgotPassword"
 import UpdateProfile from "./UpdateProfile"
 import Account from './Account'
 import StudClass from './StudClass'
-import StudDatabase from './StudDatabase'
-import StudAttend from './StudAttend'
 import StudEdit from'./StudEdit'
+import NodefluxRegister from "./NodefluxRegister"
+
 
 function App() {
   return (
@@ -19,16 +19,15 @@ function App() {
         <BrowserRouter>
           <AuthProvider>
             <Switch>
-              <PrivRoute index exact path="/" component={Dashboard} />
-              <PrivRoute path="/update-profile" component={UpdateProfile} />
-              <PrivRoute path="/Account" component={Account} />
-              <PrivRoute path="/StudClass" component={StudClass} />
-              <PrivRoute path="/studDatabase/:id" component={StudDatabase} />
-              <PrivRoute path="/studAttend/:id" component={StudAttend} />
+              <PrivRoute exact path="/" component={Dashboard} />
+              <PrivRoute exact path="/update-profile" component={UpdateProfile} />
+              <PrivRoute exact path="/Account" component={Account} />
+              <PrivRoute exact path="/StudClass" component={StudClass} />
               <PrivRoute path="/studEdit/:id" component={StudEdit} />
-              <Route path="/signup" component={Register} />
-              <Route path="/login" component={Login} />
-              <Route path="/forgot-password" component={ForgotPassword} />
+              <PrivRoute exact path='/Account/nodeRegister' component={NodefluxRegister}/>
+              <Route exact path="/signup" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/forgot-password" component={ForgotPassword} />
             </Switch>
           </AuthProvider>
         </BrowserRouter>

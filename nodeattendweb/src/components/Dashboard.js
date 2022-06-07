@@ -26,20 +26,28 @@ export default function Dashboard() {
   }
 
   // PHP Input handling
-  const [inputs,setInputs] = useState({})
+  const [error2, setError2] = useState("")
 
-  const handleChange = (event) => {
-    const studentName = event.target.name;
-    const value = event.target.value;
-    setInputs(values => ({...values, [studentName]:value}));
-  }
+  const [name, setName] = useState('');
+  const [classid, setClassID] = useState('');
+  const [dob, setDOB] = useState('');
+  const [notes, setNotes] = useState('');
 
-  const handleSubmit = (event) =>{
-    event.preventDefault();
-    axios.post('https://webdev-deployed.herokuapp.com/user/save',inputs).then(function(response){
-      console.log(response);
+  const addStudent = () => {
+    axios.post("http://localhost:3001/create", {
+      name: name,
+      classid: classid,
+      dob: dob,
+      notes: notes,
+    }).then((res) => {
+      console.log(res.data)
+      setError2("Student registered")
+    }).catch((err) => {
+      console.log(err.response.data)
+      setError2(err.response.data)
     });
-  }
+    };
+  
   return (
 
     <div className="page">
@@ -64,20 +72,24 @@ export default function Dashboard() {
 
 
       <div className="content">
+      {error && <Alert variant="danger">{error}</Alert>}
       <Container className="insertregistry">
         <Card className="registrybody">
           <Card.Body>
           <h1 className="registrytitle">Welcome to <br/>
            3MS Student Registry</h1><br/>
+          {error2 && <h3>{error2}</h3>}
           <div className="studentregistry">
             <h2>Student Registry</h2>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={addStudent}>
               <Form.Label for='studentName'>Write Student Name</Form.Label><br/>
-              <input type="text" id="studentName" name="studentName" onChange={handleChange}></input><br/><br/>
-              <Form.Label for='studentName'>Write Student Class ID</Form.Label><br/>
-              <input type="text" id="studentClass" name="studentClass" onChange={handleChange}></input><br/><br/>
-              <Form.Label for='studentPicture'>Upload Student Picture</Form.Label><br></br>
-              <input type="file" id="studentPicture" name="studentPicture" accept="image/*" onChange={handleChange}></input><br/><br/>
+              <input type="text" id="studentName" name="studentName" onChange={(event)=>{setName(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentclass'>Write Student Class ID</Form.Label><br/>
+              <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setClassID(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentDOB'>Write Student Date of Birth</Form.Label><br/>
+              <input type="text" id="studentName" name="studentDOB" onChange={(event)=>{setDOB(event.target.value)}}></input><br/><br/>
+              <Form.Label for='studentNotes'>Write any notes Regarding the student</Form.Label><br/>
+              <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setNotes(event.target.value)}}></input><br/><br/>
               <Button className="w-100" type="submit"> Submit </Button>
             </Form>
           </div>

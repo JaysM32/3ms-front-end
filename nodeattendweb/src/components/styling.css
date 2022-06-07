@@ -106,3 +106,12 @@ table, th, td {
   .studentdatabase{
       margin: auto;
   }
+
+  .facematchbody{
+    width:800px;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    min-height: 100vh;
+    padding-top: 10vh; 
+}
