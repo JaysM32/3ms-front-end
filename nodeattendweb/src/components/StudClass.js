@@ -34,13 +34,13 @@ export default function Dashboard() {
   }, []);
 
   const getStudents = () => {
-    axios.get('http://localhost:3001/class').then((response) => {
+    axios.get('https://webdev-deployed-updated.herokuapp.com/class').then((response) => {
       setStudents(response.data);
     });
   };
 
   const deleteStudent = (id) => {
-    axios.delete(`http://localhost:3001/delete/${id}`).then((response) => {
+    axios.delete(`https://webdev-deployed-updated.herokuapp.com/delete/${id}`).then((response) => {
       console.log("data deleted")
       window.location.reload()
     });

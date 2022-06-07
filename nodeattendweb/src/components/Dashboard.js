@@ -34,7 +34,7 @@ export default function Dashboard() {
   const [notes, setNotes] = useState('');
 
   const addStudent = () => {
-    axios.post("http://localhost:3001/create", {
+    axios.post("https://webdev-deployed-updated.herokuapp.com/create", {
       name: name,
       classid: classid,
       dob: dob,

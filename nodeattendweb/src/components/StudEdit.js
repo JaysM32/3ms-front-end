@@ -35,13 +35,13 @@ export default function Dashboard() {
 
 
   const getSpecStudents = (id) => {
-    axios.get(`http://localhost:3001/user/${id}`).then((response) => {
+    axios.get(`https://webdev-deployed-updated.herokuapp.com/user/${id}`).then((response) => {
       setStudents(response.data);
     });
   };
 
   const updateStudent = (id) => {
-    axios.put("http://localhost:3001/update", { 
+    axios.put("https://webdev-deployed-updated.herokuapp.com/update", { 
       name: newName,
       classid: newClassid,
       dob: newDob,
