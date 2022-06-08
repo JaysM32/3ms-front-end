@@ -41,7 +41,7 @@ export default function Dashboard() {
       notes: notes,
     }).then((res) => {
       console.log(res.data)
-      setError2("Student registered")
+      alert("Student registered")
     }).catch((err) => {
       console.log(err.response.data)
       setError2(err.response.data)
@@ -61,7 +61,7 @@ export default function Dashboard() {
         <Navbar.Collapse className="right-align">
         <Nav>
           <Nav.Link href="/">Registry</Nav.Link>
-          <Nav.Link href="/StudClass">Classes</Nav.Link>
+          <Nav.Link href="/StudClass">Database</Nav.Link>
           <Nav.Link href="/Account">Account</Nav.Link>
           <Button variant="link" onClick={handleLogout}>
           Log Out

@@ -63,7 +63,7 @@ export default function Dashboard() {
         <Navbar.Collapse className="right-align">
         <Nav>
           <Nav.Link href="/">Registry</Nav.Link>
-          <Nav.Link href="/StudClass">Classes</Nav.Link>
+          <Nav.Link href="/StudClass">Database</Nav.Link>
           <Nav.Link href="/Account">Account</Nav.Link>
           <Button variant="link" onClick={handleLogout}>
           Log Out
@@ -77,7 +77,8 @@ export default function Dashboard() {
       <Container className="insertregistry">
         <Card className="databasebody">
           <Card.Body>
-          <h1 className="registrytitle">Students</h1><br/>
+          <h1 className="registrytitle">Students</h1>
+          <h5 style={{textAlign:'center'}}> This may take a while due to heroku server location and latency.</h5><br/>
           <table className="studentdatabase">
                 <thead>
                     <tr>

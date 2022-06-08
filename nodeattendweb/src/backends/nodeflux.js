@@ -3,12 +3,10 @@ import { doc, updateDoc } from "firebase/firestore"
 
 const ACCESS_KEY = 'XQUIXR3G3D44TLNM1C9LH3TWS'
 const SECRET_ACCESS_KEY = '7Evaw19-Ja3BiXwzFfSEVMU-dgWWAh3-l9tiFgcZ8AiYxm9DTHPtKKcARPpd5VJQ'
-// const PROXY_SERVER = process.env.REACT_APP_PROXY_SERVER
+const PROXY_SERVER = 'https://rebah-proxy.herokuapp.com'
 
 export const getPhotoID = (user_id) => {
-    // get the user ID from firebase auth and separate each string into an array element
     const userID = [...user_id]
-    // converts the user ID to decimal representation of each string
     let converted_userID = ""
     userID.forEach(id_string => {
         converted_userID += id_string.charCodeAt(0)
@@ -17,8 +15,8 @@ export const getPhotoID = (user_id) => {
 }
 
 export const nodefluxAuth = async () => {
-    return await fetch("http://localhost:5000/api/nodeflux/authorization", {
-    //return await fetch(PROXY_SERVER + "/api/nodeflux/authorization", {
+    //return await fetch("http://localhost:5000/api/nodeflux/authorization", {
+    return await fetch(PROXY_SERVER + "/api/nodeflux/authorization", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -50,9 +48,8 @@ export const nodefluxDeleteEnroll = async (authorization = null) => {
         nodeflux_auth = await nodefluxAuth()
     }
     const photo_id = getPhotoID(auth.currentUser.uid)
-    // console.log(photo_id + String(typeof photo_id))
-    return await fetch("http://localhost:5000/api/nodeflux/authorization", {
-    //return await fetch(PROXY_SERVER + '/api/nodeflux/face_enrollment_delete', {
+    //return await fetch("http://localhost:5000/api/nodeflux/authorization", {
+    return await fetch(PROXY_SERVER + '/api/nodeflux/face_enrollment_delete', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -68,17 +65,16 @@ export const nodefluxDeleteEnroll = async (authorization = null) => {
         return response.json()
     }).then(result => {
         updateDoc(doc(db, 'users', auth.currentUser.uid), {
-            faceEnrollment: false,
-            faceEnrollmentID: "",
+            nodeCheck: false,
+            nodeCheckID: "",
             hasVerifiedSignIn: false
         })
         return { "response": result, "auth_key": nodeflux_auth.auth_key, "timestamp": nodeflux_auth.timestamp }
     }).catch(e => { console.log(e.message) })
 }
 
-export const nodefluxEnroll = async (authorization = null, image) => {
+export const nodefluxEnroll = async (authorization = null, image) => { //save pic
     let nodeflux_auth;
-    // meaning it's been called before
     if (authorization) {
         nodeflux_auth = {
             "auth_key": authorization.auth_key,
@@ -87,10 +83,9 @@ export const nodefluxEnroll = async (authorization = null, image) => {
     } else {
         nodeflux_auth = await nodefluxAuth()
     }
-    // getting the decimal representation of current user id
     const photo_id = getPhotoID(auth.currentUser.uid)
-    return await fetch("http://localhost:5000/api/nodeflux/authorization", {
-    //return fetch(PROXY_SERVER + "/api/nodeflux/face_enrollment", {
+    //return await fetch("http://localhost:5000/api/nodeflux/face_enrollment", {
+    return fetch(PROXY_SERVER + "/api/nodeflux/face_enrollment", {
         method: "POST",
         headers: {
             "authorization": nodeflux_auth.auth_key,
@@ -102,7 +97,7 @@ export const nodefluxEnroll = async (authorization = null, image) => {
                 "auto_orientation": false,
                 "face_id": photo_id
             },
-            "images": [image] // [portrait && !useVideo ? portrait : capturedImg]
+            "images": [image]
         })
     }).then(response => {
         return response.json()
@@ -113,7 +108,6 @@ export const nodefluxEnroll = async (authorization = null, image) => {
 
 export const nodefluxMatchEnroll = async (authorization = null, capturedImg) => {
     let nodeflux_auth;
-    // meaning it's been called before
     if (authorization) {
         nodeflux_auth = {
             "auth_key": authorization.auth_key,
@@ -122,8 +116,8 @@ export const nodefluxMatchEnroll = async (authorization = null, capturedImg) => 
     } else {
         nodeflux_auth = await nodefluxAuth()
     }
-    // getting the decimal representation of current user id
     const photo_id = getPhotoID(auth.currentUser.uid)
+    //return fetch("http://localhost:5000/api/nodeflux/face_match", {
     return fetch(PROXY_SERVER + "/api/nodeflux/face_match", {
         method: "POST",
         headers: {
@@ -142,7 +136,6 @@ export const nodefluxMatchEnroll = async (authorization = null, capturedImg) => 
     }).then(response => {
         return response.json()
     }).then(result => {
-        // console.log(result)
         return { "response": result, "auth_key": nodeflux_auth.auth_key, "timestamp": nodeflux_auth.timestamp }
     }).catch(e => { console.log(e) })
 }

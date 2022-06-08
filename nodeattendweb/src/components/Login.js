@@ -33,7 +33,6 @@ export default function Login() {
      <Container>
        <section className='bg'>
         <div className="overlay"></div>
-       </section>
        <section className="wrapper">
         <div className="loginbox"> 
           <Card style={{backgroundColor:'#fff'}}>
@@ -62,6 +61,7 @@ export default function Login() {
           </Card.Body>
         </Card>
       </div>
+      </section>
       </section>
       </Container>
     </>

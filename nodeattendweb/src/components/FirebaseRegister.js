@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect } from "react"
 import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useAuth } from "../backends/AuthCont"
+import { auth, db } from '../firebase'
 import { Link, useHistory } from "react-router-dom"
 import './login.css'
 import { BsFillInfoSquareFill, BsFillXCircleFill, BsCheckCircleFill} from "react-icons/bs";
+import { setDoc, doc } from 'firebase/firestore'
 
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
@@ -25,6 +27,8 @@ export default function Signup() {
   const [matchPwd, setMatchPwd] = useState('');
   const [validMatch, setValidMatch] = useState(false);
   const [matchFocus, setMatchFocus] = useState(false);
+
+
 
   
   useEffect(() => {
@@ -48,10 +52,15 @@ export default function Signup() {
     try {
       setError("")
       setLoading(true)
-      await signup(email, pwd)
-      history.push("/login")
+      const result = await signup(email, pwd)
+      await setDoc(doc(db, 'users', result.user.uid), {
+        uniqID: result.user.uid,
+        email,
+        nodeCheck: false,
+        nodeVerifLogin: false,
+      });
+      history.push("/")
     } catch(err413) {
-      console.log(err413)
       setError("Failed to create an account")
     }
 
