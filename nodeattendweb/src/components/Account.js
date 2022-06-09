@@ -28,7 +28,7 @@ export default function Dashboard() {
   }
 
   useEffect(() => {
-    let facematch_listener = onSnapshot(doc(db, 'users', auth.currentUser.uid), doc => {
+    let facematch_listener = onSnapshot(doc(db, 'users', auth.currentUser.uniqID), doc => {
         setUseFaceMatch(doc.data().nodeCheck)
     })
     return () => facematch_listener()
