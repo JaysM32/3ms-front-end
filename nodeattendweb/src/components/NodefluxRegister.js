@@ -39,14 +39,14 @@ const NodefluxRegister = () => {
         try {
             async function updateEnrollment() {
                 const q = await getDoc(doc(db, 'users', auth.currentUser.uid))
-                setNodeCheck(q.data().faceEnrollment)
+                setNodeCheck(q.data().nodeCheck)
             }
             updateEnrollment()
         } catch (e) {
             console.log(e)
         }
         const unsub = onSnapshot(doc(db, 'users', auth.currentUser.uid), docsnap => {
-            setNodeCheck(docsnap.data().faceEnrollment)
+            setNodeCheck(docsnap.data().nodeCheck)
         })
         return () => { unsub() }
     }, [])
