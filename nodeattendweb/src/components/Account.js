@@ -104,10 +104,10 @@ export default function Dashboard() {
                 Update Profile
             </Link>
               <div class={`${useFaceMatch ? "hide" : ""}`}>
-                <Button className="btn btn-primary w-100 mt-3" onClick={nodeRegister}>Enable Face Recognition sign in</Button>
+                <Button className="btn btn-primary w-100 mt-3" onClick={nodeRegister}>Enable Face Recognition verification</Button>
               </div>
               <div class={`${useFaceMatch ? "" : "hide"}`}>
-                <Button className="btn btn-primary w-100 mt-3" onClick={delNode}>Disable Face Recognition sign in</Button>
+                <Button className="btn btn-primary w-100 mt-3" onClick={delNode}>Disable Face Recognition verification</Button>
               </div>
             </Card.Footer>
         </Card>
