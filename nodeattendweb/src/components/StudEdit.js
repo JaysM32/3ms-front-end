@@ -34,12 +34,6 @@ export default function Dashboard() {
   const [newNotes, setNotes] = useState('');
 
 
-  const getSpecStudents = (id) => {
-    axios.get(`https://webdev-deployed-updated.herokuapp.com/user/${id}`).then((response) => {
-      setStudents(response.data);
-    });
-  };
-
   const updateStudent = (id) => {
     axios.put("https://webdev-deployed-updated.herokuapp.com/update", { 
       name: newName,
@@ -52,8 +46,12 @@ export default function Dashboard() {
       }
     );
   };
-
   
+  
+  
+
+  console.log(students)
+
   return (
 
     <div className="page">
