@@ -25,7 +25,6 @@ export default function Dashboard() {
     }
   }
 
-  // PHP Input handling
   const [error2, setError2] = useState("")
 
   const [name, setName] = useState('');
@@ -91,7 +90,7 @@ export default function Dashboard() {
               <input type="text" id="studentName" name="studentDOB" onChange={(event)=>{setDOB(event.target.value)}}></input><br/><br/>
               <Form.Label for='studentNotes'>Write any notes Regarding the student</Form.Label><br/>
               <input type="text" id="studentClass" name="studentClass" onChange={(event)=>{setNotes(event.target.value)}}></input><br/><br/>
-              <Button className="w-100" type="submit" onClick={addStudent}> Submit </Button>
+              <Button className="w-100" onClick={addStudent}> Submit </Button>
             </Form>
           </div>
           </Card.Body>
